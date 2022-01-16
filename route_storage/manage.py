@@ -79,5 +79,24 @@ def migrate(ctx) -> None:
     manager.upgrade()
 
 
+@main.command()
+@click.option('--migration-name', '-m', required=True)
+@click.pass_context
+def rollback(ctx, migration_name: str) -> None:
+    """Rollback migration by name of migration.
+
+    Example: python manage.py rollback xxxx_xxxx_xxxx_xxxx_xxxx_xxxxxxxx
+    See path: /project_dir/migrations.
+
+    """
+    manager = DatabaseManager(
+        PooledPostgresqlDatabase(
+            **ctx.obj['settings']['database'],
+        ),
+    )
+
+    manager.downgrade(migration_name)
+
+
 if __name__ == '__main__':
     main()

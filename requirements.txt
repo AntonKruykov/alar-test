@@ -7,6 +7,7 @@ uvloop==0.16.0
 peewee==3.14.8
 peewee-async==0.7.2
 marshmallow==3.14.1
+aiojobs==1.0.0
 
 # migrations
 ex-peewee-moves==2.0.1

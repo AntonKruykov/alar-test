@@ -20,12 +20,7 @@ class Point(BaseModel):
 class Route(BaseModel):
 
     user = peewee.ForeignKeyField(AuthUser)
-    name = peewee.CharField(
-        unique=True,
-        index=True,
-        max_length=100,
-        null=False,
-    )
+    name = peewee.CharField(max_length=100, null=False)
 
 
 class RouteItem(BaseModel):

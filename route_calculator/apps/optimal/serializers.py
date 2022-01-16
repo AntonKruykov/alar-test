@@ -13,20 +13,20 @@ class PointSerializer(Schema):
 class RouteItemSerializer(Schema):
     """Serializer for route item."""
 
-    point = fields.Nested(PointSerializer, allow_none=True)
-    point_id = fields.Integer(required=True)
-    order = fields.Integer(required=True)
+    point = fields.Nested(PointSerializer)
+    point_id = fields.Integer(dump_only=True)
+    order = fields.Integer(dump_only=True)
 
 
-class RouteListSerializer(Schema):
+class RouteSerializer(Schema):
     """Serializer for route list."""
 
-    id = fields.Integer()
     name = fields.String()
     user_id = fields.Integer()
-
-
-class RouteDetailSerializer(RouteListSerializer):
-    """Serializer for route."""
-
     items = fields.List(fields.Nested(RouteItemSerializer))
+
+
+class CreateOptimalRouteSerializer(RouteSerializer):
+
+    point_a = fields.Nested(PointSerializer)
+    point_b = fields.Nested(PointSerializer)

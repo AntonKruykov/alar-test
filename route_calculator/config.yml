@@ -1,0 +1,7 @@
+base:
+  debug: True
+  secret: 'secretkey'
+  client_max_size:
+  allowed_hosts:
+    - 'localhost'
+create_route_url: http://localhost:8080/api/routes/routes/create

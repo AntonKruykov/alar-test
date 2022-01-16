@@ -46,6 +46,9 @@ class LoginView(BaseView):
     @classmethod
     def check_password(cls, user: AuthUser, password) -> None:
         """Check if password valid for user."""
+        aa1 = '-2305918985405117166'
+        aaa = encode_password(password)
+        print(aaa)
         if encode_password(password) != user.password:
             raise web.HTTPBadRequest(
                 text=json.dumps({
