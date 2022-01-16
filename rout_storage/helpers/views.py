@@ -3,6 +3,10 @@ from typing import Dict
 
 from aiohttp import web
 from marshmallow import ValidationError
+from peewee import Query
+from peewee_async import PooledPostgresqlDatabase
+
+from helpers.models import BaseModel
 
 
 class BaseView(web.View):
@@ -12,7 +16,7 @@ class BaseView(web.View):
         raise NotImplementedError
 
     @property
-    def database(self):
+    def database(self) -> PooledPostgresqlDatabase:
         """Database property."""
         return self.request.config_dict['objects']
 
@@ -37,3 +41,60 @@ class BaseView(web.View):
                 text=json.dumps({'error': error.messages}),
                 content_type='application/json',
             )
+
+
+class BaseListView(BaseView):
+
+    @property
+    def serializer_class(self):
+        raise NotImplementedError
+
+    @property
+    def query(self) -> Query:
+        raise NotImplementedError
+
+    async def get(self):
+        limit = self.request.rel_url.query.get('limit', 100)
+        offset = self.request.rel_url.query.get('offset', 0)
+
+        count = await self.database.count(self.query.clone())
+
+        points = await self.database.execute(
+            self.query.limit(limit).offset(offset),
+        )
+
+        results = self.serializer_class(many=True).dump(points)
+
+        return web.json_response(
+            {
+                'count': count,
+                'offset': offset,
+                'limit': limit,
+                'results': results,
+            }
+        )
+
+
+class BaseDetailView(BaseView):
+
+    @property
+    def serializer_class(self):
+        raise NotImplementedError
+
+    @property
+    def get_instance(self):
+        raise NotImplementedError
+
+    async def get(self):
+
+        try:
+            instance = await self.get_instance()
+        except BaseModel.DoesNotExist:
+            raise web.HTTPNotFound(
+                text=json.dumps({
+                    'error': ['Object not found.'],
+                }),
+                content_type='application/json',
+            )
+
+        return web.json_response(self.serializer_class().dump(instance))

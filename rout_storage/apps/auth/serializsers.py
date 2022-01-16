@@ -1,7 +1,7 @@
 from marshmallow import Schema, fields
 
 
-class AuthSerializer(Schema):
+class AuthUserSerializer(Schema):
     """User login form serializer."""
 
     username = fields.Email(required=True)

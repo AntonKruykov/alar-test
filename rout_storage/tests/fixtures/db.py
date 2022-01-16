@@ -7,10 +7,15 @@ from peewee_async import PooledPostgresqlDatabase
 from peewee_moves import DatabaseManager
 
 from apps.auth.models import AuthUser
+from apps.routes.models import Point, Route, RouteItem
 
 MODELS = [
     # auth
     AuthUser,
+    # routes
+    Point,
+    Route,
+    RouteItem,
 ]
 
 

@@ -65,7 +65,7 @@ def jwt_middleware(  # noqa: C901
             token = token.encode()
 
         try:
-            decoded = jwt.decode(token, secret_or_pub_key)
+            decoded = jwt.decode(token, secret_or_pub_key, algorithms='HS256')
         except jwt.InvalidTokenError:
             raise web.HTTPUnauthorized(
                 text=json.dumps({

@@ -4,4 +4,5 @@ pytest_plugins = [
     'fixtures.api',
     'fixtures.routers',
     'fixtures.auth',
+    'fixtures.routes',
 ]

@@ -3,7 +3,7 @@ import json
 from aiohttp import web
 
 from apps.auth.models import AuthUser
-from apps.auth.serializsers import AuthSerializer
+from apps.auth.serializsers import AuthUserSerializer
 from apps.auth.utils import encode_password
 from helpers.jwt.handler import JWTHandler
 from helpers.views import BaseView
@@ -12,7 +12,7 @@ from helpers.views import BaseView
 class LoginView(BaseView):
     """Login view."""
 
-    serializer_class = AuthSerializer
+    serializer_class = AuthUserSerializer
 
     async def post(self):
         """Authorize user and return jwt."""

@@ -3,10 +3,10 @@ from typing import Dict, Tuple
 
 from aiohttp import web
 
-# from helpers.middlewares import jwt_middleware
 from peewee_async import Manager
 
 from apps.auth.app import make_application as auth_app
+from apps.routes.app import make_application as routes_app
 from helpers.jwt.middlewares import jwt_middleware
 from helpers.models import database
 
@@ -54,6 +54,7 @@ def get_subapps() -> Tuple:
     """Get subapps."""
     return (
         auth_app(),
+        routes_app(),
     )
 
 
@@ -61,7 +62,6 @@ async def setup_database(app: web.Application, loop) -> None:
     """Setup database."""
     if 'settings' not in app:
         raise RuntimeError('Setup settings at first.')
-
 
     database.init(**app['settings']['database'])
     database.set_allow_sync(False)
