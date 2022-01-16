@@ -1,0 +1,12 @@
+base:
+  debug: True
+  secret: 'secretkey'
+  client_max_size:
+  allowed_hosts:
+    - 'localhost'
+database:
+  host: localhost
+  port: 5432
+  database: alar_report
+  user: alar
+  password: password
