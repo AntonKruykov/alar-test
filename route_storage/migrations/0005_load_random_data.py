@@ -15,8 +15,10 @@ def upgrade(migrator):
                 """
                 INSERT into authuser (username, password) 
                 values ('{0}', '{1}')
-                """.format(f'user{index}@mail.com',
-                           encode_password(f'user{index}'))
+                """.format(
+                    f'user{index}@mail.com',
+                    encode_password(f'user{index}'),
+                )
             )
 
     for index in range(1000):
