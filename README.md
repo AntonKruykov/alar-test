@@ -53,7 +53,7 @@ route_storage/config.yml и route_report/config.sh
 ./run_report_scheduler.sh
 ````
 
-## Работа  пректом
+## Работа с пректом
 ### Авторизация
 
 POST запрос на http://localhost:8080/api/auth/login

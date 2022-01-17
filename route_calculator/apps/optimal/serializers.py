@@ -27,6 +27,7 @@ class RouteSerializer(Schema):
 
 
 class CreateOptimalRouteSerializer(RouteSerializer):
+    """Serializer for create optimal route endpoint."""
 
     point_a = fields.Nested(PointSerializer)
     point_b = fields.Nested(PointSerializer)

@@ -13,7 +13,7 @@ REPORT_UPDATE = 1
 
 
 async def get_data(url, token, start_id: int):
-
+    """Retrieve data for report via http."""
     async with ClientSession() as client:
         resp = await client.get(
             url + f'?id__gt={start_id}',
@@ -25,7 +25,7 @@ async def get_data(url, token, start_id: int):
 
 
 async def get_or_create_report_record(user_id: str, username) -> RouteReport:
-
+    """Get or create report record for user."""
     try:
         return await scheduler.database.get(
             RouteReport,
@@ -39,8 +39,8 @@ async def get_or_create_report_record(user_id: str, username) -> RouteReport:
         )
 
 
-async def get_last_id():
-
+async def get_last_id() -> int:
+    """Get id of last processed route."""
     update_record = await scheduler.database.get(
         ReportUpdate,
         report=REPORT_UPDATE,
@@ -48,8 +48,8 @@ async def get_last_id():
     return update_record.last_id
 
 
-async def set_last_id(last_id):
-
+async def set_last_id(last_id) -> None:
+    """Save id of last processed route."""
     await scheduler.database.execute(
         ReportUpdate.update(
             last_id=last_id,
@@ -59,8 +59,8 @@ async def set_last_id(last_id):
     )
 
 
-async def save_results(results: List):
-
+async def save_results(results: List) -> None:
+    """Save fetched info into database."""
     for result in results:
         route_report = await get_or_create_report_record(
             result['user_id'],
@@ -77,21 +77,8 @@ async def save_results(results: List):
     await set_last_id(results[-1]['id'])
 
 
-async def download_report_data():
-    """Download data for report."""
-
-    token = generate_jwt()
-    url = scheduler.settings.get('report_data_url')
-    prev_count = 100
-    while prev_count:
-        start_id = await get_last_id()
-        data = await get_data(url, token, start_id)
-        prev_count = data['count']
-        if prev_count:
-            await save_results(data['results'])
-
-
 def generate_jwt():
+    """Generate JWT for retrieve route data."""
     class FakeRequest(object):
         config_dict = {
             'settings': scheduler.settings,
@@ -103,6 +90,19 @@ def generate_jwt():
     jwt_handler = JWTHandler(FakeRequest(), payload)
     access_payload = jwt_handler.generate_payload()
     return jwt_handler.encode_jwt(access_payload)
+
+
+async def download_report_data():
+    """Download data for report."""
+    token = generate_jwt()
+    url = scheduler.settings.get('report_data_url')
+    prev_count = 100
+    while prev_count:
+        start_id = await get_last_id()
+        data = await get_data(url, token, start_id)
+        prev_count = data['count']
+        if prev_count:
+            await save_results(data['results'])
 
 
 SCHEDULED_TASKS = (

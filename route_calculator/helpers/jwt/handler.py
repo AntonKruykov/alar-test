@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from typing import Optional, Dict, Tuple
+from typing import Dict
 
 from aiohttp.web_request import Request
 from jwt import encode as jwt_encode
@@ -9,7 +9,7 @@ DEFAULT_TOKEN_TTL = 720
 
 
 class JWTHandler(object):
-    """JWT HANDLER."""
+    """JWT handler."""
 
     exp_key = 'exp'
 
@@ -25,7 +25,6 @@ class JWTHandler(object):
 
     def create_token(self) -> str:
         """Create token for user."""
-
         access_payload: Dict = self.generate_payload()
         return self.encode_jwt(access_payload)
 

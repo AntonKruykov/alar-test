@@ -1,6 +1,6 @@
 from aiohttp import web
 
-from apps.routes.views import PointListView, RouteListView, RouteCreateDetailView, \
+from apps.routes.views import PointListView, RouteListView, RouteDetailView, \
     CreateRouteView
 
 
@@ -12,7 +12,7 @@ def init_routes(app: web.Application) -> None:
         web.view('/routes/create', CreateRouteView, name='route-create'),
         web.view(
             r'/routes/{item_id:\d+}',
-            RouteCreateDetailView,
+            RouteDetailView,
             name='route-detail',
         ),
     ])

@@ -6,9 +6,11 @@ from marshmallow import ValidationError
 
 
 class BaseView(web.View):
+    """Base view for handle requests."""
 
     @property
     def serializer_class(self):
+        """Serializer for validate request data."""
         raise NotImplementedError
 
     @property

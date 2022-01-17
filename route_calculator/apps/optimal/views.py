@@ -12,10 +12,12 @@ from helpers.views import BaseView
 
 
 class CalcOptimalRouteView(BaseView):
+    """View for calculate optimal route."""
 
     serializer_class = CreateOptimalRouteSerializer
 
     async def post(self):
+        """Handle new route data."""
 
         data = await self.validate_data()
 
@@ -30,7 +32,7 @@ class CalcOptimalRouteView(BaseView):
         )
 
     async def calc_optimal_route(self, data):
-
+        """Do something look like optimization and save route."""
         points = [
             point['point'] for point in data['items']
         ]

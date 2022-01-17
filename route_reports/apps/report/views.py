@@ -4,6 +4,7 @@ from helpers.views import BaseListView
 
 
 class RouteReportView(BaseListView):
+    """Report."""
 
     serializer_class = RouteReportSerializer
     query = RouteReport.select()

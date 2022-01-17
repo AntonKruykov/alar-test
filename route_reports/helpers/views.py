@@ -8,9 +8,11 @@ from peewee_async import PooledPostgresqlDatabase
 
 
 class BaseView(web.View):
+    """Base view."""
 
     @property
     def serializer_class(self):
+        """Serializer for validate input data."""
         raise NotImplementedError
 
     @property
@@ -42,6 +44,7 @@ class BaseView(web.View):
 
 
 class BaseListView(BaseView):
+    """Base view for list data."""
 
     @property
     def serializer_class(self):

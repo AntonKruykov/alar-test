@@ -10,4 +10,4 @@ class BaseModel(peewee.Model):
     class Meta:
         """Base model options."""
 
-        database = database  # noqa: WPS434
+        database = database
