@@ -96,12 +96,12 @@ async def download_report_data():
     """Download data for report."""
     token = generate_jwt()
     url = scheduler.settings.get('report_data_url')
-    prev_count = 100
-    while prev_count:
+    route_count = 1
+    while route_count:
         start_id = await get_last_id()
         data = await get_data(url, token, start_id)
-        prev_count = data['count']
-        if prev_count:
+        route_count = data['count']
+        if route_count:
             await save_results(data['results'])
 
 
