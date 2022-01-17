@@ -25,6 +25,6 @@ class Route(BaseModel):
 
 class RouteItem(BaseModel):
 
-    route = peewee.ForeignKeyField(Route)
+    route = peewee.ForeignKeyField(Route, backref='items')
     point = peewee.ForeignKeyField(Point)
     order = peewee.IntegerField(null=True)

@@ -9,3 +9,10 @@ class RouteReport(BaseModel):
     username = peewee.CharField(unique=True, max_length=100)
     route_count = peewee.IntegerField(default=0)
     route_length = peewee.IntegerField(default=0)
+
+
+class ReportUpdate(BaseModel):
+
+    report = peewee.IntegerField(unique=True)
+    last_id = peewee.IntegerField(default=0)
+

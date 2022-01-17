@@ -13,3 +13,8 @@ def router_routes(app: web.Application) -> web.UrlDispatcher:
     """Fixture for auth router."""
     return app['routes'].router
 
+
+@pytest.fixture
+def router_report(app: web.Application) -> web.UrlDispatcher:
+    """Fixture for auth router."""
+    return app['report'].router

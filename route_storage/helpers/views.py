@@ -1,5 +1,5 @@
 import json
-from typing import Dict
+from typing import Dict, List
 
 from aiohttp import web
 from marshmallow import ValidationError
@@ -53,17 +53,28 @@ class BaseListView(BaseView):
     def query(self) -> Query:
         raise NotImplementedError
 
+    async def get_query(self) -> Query:
+        return self.query
+
+    async def execute_list_query(self, query) -> List:
+        """Execute query for retrieve a list or objects.
+
+        For example you can override this method for use prefetch()
+        """
+        return await self.database.execute(query)
+
     async def get(self):
         limit = self.request.rel_url.query.get('limit', 100)
         offset = self.request.rel_url.query.get('offset', 0)
 
-        count = await self.database.count(self.query.clone())
+        query = await self.get_query()
 
-        points = await self.database.execute(
-            self.query.limit(limit).offset(offset),
-        )
+        count = await self.database.count(query.clone())
 
-        results = self.serializer_class(many=True).dump(points)
+        query = query.limit(limit).offset(offset)
+        items = await self.execute_list_query(query)
+
+        results = self.serializer_class(many=True).dump(items)
 
         return web.json_response(
             {

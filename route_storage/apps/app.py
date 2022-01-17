@@ -6,6 +6,7 @@ from aiohttp import web
 from peewee_async import Manager
 
 from apps.auth.app import make_application as auth_app
+from apps.report.app import make_application as report_app
 from apps.routes.app import make_application as routes_app
 from helpers.jwt.middlewares import jwt_middleware
 from helpers.models import database
@@ -55,6 +56,7 @@ def get_subapps() -> Tuple:
     return (
         auth_app(),
         routes_app(),
+        report_app(),
     )
 
 

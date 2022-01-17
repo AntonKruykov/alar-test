@@ -12,6 +12,9 @@ aiojobs==1.0.0
 # migrations
 ex-peewee-moves==2.0.1
 
+# scheduling
+APScheduler==3.8.1
+
 # pytest
 pytest==6.2.5
 pytest-aiohttp==0.3.0

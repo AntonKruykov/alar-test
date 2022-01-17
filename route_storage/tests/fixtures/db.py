@@ -42,7 +42,7 @@ def setup_database(settings) -> None:
             **settings['database'],
         ),
     )
-    manager.upgrade()
+    manager.upgrade('0004')
 
 
 @pytest.fixture(autouse=True)

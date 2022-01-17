@@ -10,3 +10,4 @@ database:
   database: alar_report
   user: alar
   password: password
+report_data_url: http://localhost:8080/api/report/routes

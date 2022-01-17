@@ -7,6 +7,8 @@ from peewee_async import PooledPostgresqlDatabase
 from peewee_moves import DatabaseManager
 
 from apps.app import make_application
+from scheduler.manager import scheduler
+from scheduler.schedule import SCHEDULED_TASKS
 
 
 @click.group()
@@ -96,6 +98,18 @@ def rollback(ctx, migration_name: str) -> None:
     )
 
     manager.downgrade(migration_name)
+
+
+@main.command()
+@click.pass_context
+def runscheduler(ctx) -> None:
+    """Run scheduler."""
+    settings = dict(ctx.obj['settings'])
+
+    for scheduled_task in SCHEDULED_TASKS:
+        scheduler.add_task(**scheduled_task)
+
+    scheduler.run()
 
 
 if __name__ == '__main__':
